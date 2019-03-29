@@ -9,8 +9,8 @@ namespace Task
         {
             string[] firstName = { "Ivan", "Ruslan", "Petro", "Max", "Dima", "Stas", "Oleg", "Ostap", "Kirill", "Alex" };
             string[] lastName = { "Ivanov", "Ruslanov", "Petrov", "Maxov", "Dimov", "Stasov", "Olegov", "Ostapov", "Kirilov", "Alexov" };
-            List<Person> res = new List<Person> { };
-            Random r = new Random();
+            List<Person> result = new List<Person> { };
+            Random random = new Random();
             
             for (int i = 0; i < amount; i++)
             {
@@ -21,27 +21,33 @@ namespace Task
                 string resultLastName = lastName[secondId];
 
                 int range = 100;
-                decimal resultHoureRate = (decimal)r.NextDouble() * range;
+                decimal resultHoureRate = (decimal)random.NextDouble() * range;
 
                 DateTime start = new DateTime(1950, 1, 1);
                 int subtract = (DateTime.Today - start).Days;
-                DateTime resultRandDate = start.AddDays(r.Next(subtract));
-                
-                int variety = r.Next(3);
-                if(variety == 0)
-                {
-                    res.Add(new Freelancer(resultFirstName, resultLastName, resultHoureRate, resultRandDate));
-                }
-                if (variety == 1)
-                {
-                    res.Add(new Subcontractor(resultFirstName, resultLastName, resultHoureRate, resultRandDate));
-                }
-                if (variety == 2)
-                {
-                    res.Add(new Employee(resultFirstName, resultLastName, resultHoureRate, resultRandDate));
-                }               
+                DateTime resultRandDate = start.AddDays(random.Next(subtract));
+
+                //For task 2-3
+
+                result.Add(new Person(resultFirstName, resultLastName, resultHoureRate, resultRandDate));
+
+                //For task 5
+
+                //int variety = random.Next(3);
+                //if(variety == 0)
+                //{
+                //    result.Add(new Freelancer(resultFirstName, resultLastName, resultHoureRate, resultRandDate));
+                //}
+                //if (variety == 1)
+                //{
+                //    result.Add(new Subcontractor(resultFirstName, resultLastName, resultHoureRate, resultRandDate));
+                //}
+                //if (variety == 2)
+                //{
+                //    result.Add(new Employee(resultFirstName, resultLastName, resultHoureRate, resultRandDate));
+                //}               
             }
-            return res.ToArray();
+            return result.ToArray();
 
             // ---------------------Use Faker.NET & NBuilder----------------------------------------------//
 

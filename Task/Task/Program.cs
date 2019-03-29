@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.IO;
+using System.Xml.Serialization;
 namespace Task
-{
-    class Program
+{    class Program
     {
         static void Main(string[] args)
         {
@@ -17,7 +17,7 @@ namespace Task
 
             /////////////////   Task2-3   /////////////////
 
-            //Person [] people = new PersonGenerator().Generate(10);
+            //Person[] people = new PersonGenerator().Generate(10);
             //foreach (Person person in people)
             //    Console.WriteLine(person.GetPersonInfo());
 
@@ -37,11 +37,30 @@ namespace Task
 
             /////////////////   Task5  /////////////////
 
-            Person[] people = new PersonGenerator().Generate(10);
-            foreach (Person person in people)
-                Console.WriteLine(person.GetPersonInfo());
+            //Person[] people = new PersonGenerator().Generate(10);
+            //foreach (Person person in people)
+            //    Console.WriteLine(person.GetPersonInfo());
 
+            /////////////////  Serializable  /////////////////
 
+            Person[] people = new PersonGenerator().Generate(10);            
+            XmlSerializer serializable = new XmlSerializer(typeof(Person[]));
+            using (FileStream file = new FileStream("people.xml", FileMode.OpenOrCreate))
+            {
+                serializable.Serialize(file, people);
+                Console.WriteLine("Serializable done");
+            }
+
+            using (FileStream file = new FileStream("people.xml", FileMode.OpenOrCreate))
+            {
+                Person[] newPersons = (Person[])serializable.Deserialize(file);
+
+                Console.WriteLine("Deserializable done");
+                foreach (Person person in newPersons)
+                {
+                    Console.WriteLine("Имя: {0} --- Возраст: {1}", person.FullName, person.Age);
+                }
+            }
             Console.ReadKey();
         }
     }

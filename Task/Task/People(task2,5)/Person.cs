@@ -1,17 +1,21 @@
-﻿using FizzWare.NBuilder;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System;
 namespace Task
 {
-    class Person
-    {
-        public Person() { }
+    [Serializable]
+   public class Person
+   {
+        private DateTime birthDate;
+        private string firstName;
+        private string lastName;
+        private decimal hourRate;
+
+        public Person()
+        { }
 
         public Person(decimal hourRate)
         {
             this.hourRate = hourRate;
-        }
+        }       
 
         public Person(string firstName, string lastName, decimal hourRate, DateTime birthDate)
         {
@@ -19,25 +23,19 @@ namespace Task
             this.lastName = lastName;
             this.hourRate = hourRate;
             this.birthDate = birthDate;
-        }
-
-        private DateTime birthDate;
-        private string firstName;
-        private string lastName;
-        private decimal hourRate;
+        }      
  
-
-        public DateTime BirthDate { get => birthDate; set => birthDate = value; }
-        public string FirstName { get => firstName; set => firstName = value; }
-        public string LastName { get => lastName; set => lastName = value; }
+        public DateTime BirthDate { get => this.birthDate; set => this.birthDate = value; }
+        public string FirstName { get => this.firstName; set => this.firstName = value; }
+        public string LastName { get => this.lastName; set => this.lastName = value; }
         public virtual decimal HourRate
         {
-            get => hourRate;
+            get => this.hourRate;
             set
             {
                 if (Age < 18)
-                    hourRate = 0;
-                else hourRate = value;
+                    this.hourRate = 0;
+                else this.hourRate = value;
             }
         }
         public int Age
@@ -48,6 +46,7 @@ namespace Task
                 currentDate = DateTime.Today;
                 return currentDate.Subtract(BirthDate).Days / 365;
             }
+
         }
         public string FullName { get
             {
@@ -64,7 +63,7 @@ namespace Task
             else
                 return result += "\nPotentional salary - " + HourRate * 0 + " (Because person is younger than 18 years)";
         }
-        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        
         public decimal overallEarnings()
         {
             int today = (DateTime.Today.Year)*12 + DateTime.Today.Month;
@@ -72,5 +71,5 @@ namespace Task
             decimal result = (decimal)(today - birthDay) * 160 * HourRate;
             return result;
         }
-    }
+   }
 }
